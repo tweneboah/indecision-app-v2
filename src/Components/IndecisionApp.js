@@ -10,7 +10,7 @@ import Options from './Options'
 
 class IndecisionAp extends Component {
     state = { 
-        options: ['One', 'Two']
+        options: []
      }
 
      handleDeleteOptions = () => {
