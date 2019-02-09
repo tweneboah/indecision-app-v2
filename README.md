@@ -1,68 +1,414 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+```javascript
+import React, { Component } from 'react';
 
-## Available Scripts
+class Header extends Component {
+    state = {  }
+    render() { 
+        return ( 
+            <div>
+                <h1>{this.props.title}</h1>
+                <h2>{this.props.subTitle}</h2>
+            </div>
+         );
+    }
+}
+ 
+class Action extends Component {
+  
+    handlePick = () => {
+       alert('Handle pick was clicked')
+    }
+    render() { 
+        return ( 
+            <div>
+                <button onClick = {this.handlePick}>What Should I do?</button>
+            </div>
+         );
+    }
+}
+ 
 
-In the project directory, you can run:
+class Options extends Component {
+    
+    handleRemoveAll = () => {
+        alert('Handle remove all')
+    }
+    render() { 
+        return (  
+            <div>
+                <h2>Your total options are: {this.props.options.length}</h2>
+               
+               { this.props.options.map((option) => <Option key={option} optionText = {option}>{option}</Option>)
+               }
 
-### `npm start`
+               <button onClick = {this.handleRemoveAll}>Remove All</button>
+            </div>
+        );
+    }
+}
+ 
+class Option extends Component {
+    render() { 
+        return ( 
+            <div>
+                {/* //<p>Option</p> */}
+                {this.props.optionText}
+            </div>
+         );
+    }
+}
+ 
+class AddOptions extends Component {
+    
+  handleAddOption = (e) => {
+     e.preventDefault();
+     const option = e.target.elements.option.value.trim();
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+     if(option){
+     this.props.options.push(option)
+     }
+     console.log(this.props.options) 
+  }
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+    render() { 
+        return (  
+            <div>
+                <h3>Add Options</h3>
+                <form onSubmit = {this.handleAddOption}>
+                    <input type="text" name="option" />
+                    <button>Add Option</button>
+                </form>
+            </div>
+        );
+    }
+}
+ 
+class IndecisionAp extends Component {
+    state = {  }
 
-### `npm test`
+   
+    render() { 
+        const options = ['One', 'two']
+        return ( 
+            <div>
+                <Header 
+                title ="Indecision App"
+                subTitle = 'Put your life in computer'
+                 />
+                <Action/>
+                <Options options = {options}/>
+                <AddOptions options = {options}/>
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+            </div>
+         );
+    }
+}
+ 
+export default IndecisionAp;
 
-### `npm run build`
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+# FORM EVENT
+```javascript
+import React, { Component } from 'react';
 
-### `npm run eject`
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+class IndecisionAp extends Component {
+    state = { 
+        options: ['One', 'Two']
+     }
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+     handleDeleteOptions = () => {
+         this.setState({
+             options: []
+         })
+     }
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+    handlePick = () => {
+         const randonNum = Math.floor(Math.random() * this.state.options.length);
+         const option = this.state.options[randonNum]
+         alert(option)
+    }
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+     handleAddOptions = (option) => {
+          console.log(option)
+          this.setState({
+              options: this.state.options.concat([option])
+          })
+     }
+    render() { 
+        
+        return ( 
+            <div>
+                <Header 
+                title ="Indecision App"
+                subTitle = 'Put your life in computer'
+                 />
+                <Action
+                 hasOptions = {this.state.options.length <= 0}
+                 handlePick = {this.handlePick}
+                 />
+                <Options 
+                options = {this.state.options}
+                handleDeleteOptions = {this.handleDeleteOptions}
+                />
+                <AddOptions 
+                options = {this.state.options}
+                handleAddOptions = {this.handleAddOptions}/>
 
-## Learn More
+            </div>
+         );
+    }
+}
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+class Header extends Component {
+    state = {  }
+    render() { 
+        return ( 
+            <div>
+                <h1>{this.props.title}</h1>
+                <h2>{this.props.subTitle}</h2>
+            </div>
+         );
+    }
+}
+ 
+class Action extends Component {
+  
+    handlePick = () => {
+       alert('Handle pick was clicked')
+    }
+    render() { 
+        return ( 
+            <div>
+                <button 
+                onClick = {this.props.handlePick}
+                disabled = {this.props.hasOptions}
+                
+                >What Should I do?</button>
+        
+            </div>
+         );
+    }
+}
+ 
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+class Options extends Component {
+    
+    render() { 
+        return (  
+            <div>
+                <h2>Your total options are: {this.props.options.length}</h2>
+               
+               { this.props.options.map((option) => <Option key={option} optionText = {option}>{option}</Option>)
+               }
 
-### Code Splitting
+               <button onClick = {this.props.handleDeleteOptions}>Remove All</button>
+            </div>
+        );
+    }
+}
+ 
+class Option extends Component {
+    render() { 
+        return ( 
+            <div>
+                {/* //<p>Option</p> */}
+                {this.props.optionText}
+            </div>
+         );
+    }
+}
+ 
+class AddOptions extends Component {
+    
+  handleAddOption = (e) => {
+     e.preventDefault();
+     const option = e.target.elements.option.value.trim();
+      
+     this.props.handleAddOptions(option)
+     
+  }
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+    render() { 
+        return (  
+            <div>
+                <h3>Add Options</h3>
+                <form onSubmit = {this.handleAddOption}>
+                    <input type="text" name="option" />
+                    <button>Add Option</button>
+                </form>
+            </div>
+        );
+    }
+}
+ 
 
-### Analyzing the Bundle Size
+ 
+export default IndecisionAp;
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
 
-### Making a Progressive Web App
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
+```
 
-### Advanced Configuration
+# Adding item, validation,
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
+```javascript
+import React, { Component } from 'react';
 
-### Deployment
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
+class IndecisionAp extends Component {
+    state = { 
+        options: ['One', 'Two']
+     }
 
-### `npm run build` fails to minify
+     handleDeleteOptions = () => {
+         this.setState({
+             options: []
+         })
+     }
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+    handlePick = () => {
+         const randonNum = Math.floor(Math.random() * this.state.options.length);
+         const option = this.state.options[randonNum]
+         alert(option)
+    }
+
+     handleAddOptions = (option) => {
+
+      if(!option){
+          return 'Enter valid item'
+      } else if (this.state.options.indexOf(option)> -1) {
+           return 'Item exist'
+      }
+            this.setState({
+                options: this.state.options.concat([option])
+            })
+            console.log(option)
+        }
+          
+         
+     
+    render() { 
+        
+        return ( 
+            <div>
+                <Header 
+                title ="Indecision App"
+                subTitle = 'Put your life in computer'
+                 />
+                <Action
+                 hasOptions = {this.state.options.length <= 0}
+                 handlePick = {this.handlePick}
+                 />
+                <Options 
+                options = {this.state.options}
+                handleDeleteOptions = {this.handleDeleteOptions}
+                />
+                <AddOptions 
+                options = {this.state.options}
+                handleAddOptions = {this.handleAddOptions}/>
+
+            </div>
+         );
+    }
+}
+
+class Header extends Component {
+    state = {  }
+    render() { 
+        return ( 
+            <div>
+                <h1>{this.props.title}</h1>
+                <h2>{this.props.subTitle}</h2>
+            </div>
+         );
+    }
+}
+ 
+class Action extends Component {
+  
+    handlePick = () => {
+       alert('Handle pick was clicked')
+    }
+    render() { 
+        return ( 
+            <div>
+                <button 
+                onClick = {this.props.handlePick}
+                disabled = {this.props.hasOptions}
+                
+                >What Should I do?</button>
+        
+            </div>
+         );
+    }
+}
+ 
+
+class Options extends Component {
+    
+    render() { 
+        return (  
+            <div>
+                <h2>Your total options are: {this.props.options.length}</h2>
+               
+               { this.props.options.map((option) => <Option key={option} optionText = {option}>{option}</Option>)
+               }
+
+               <button onClick = {this.props.handleDeleteOptions}>Remove All</button>
+            </div>
+        );
+    }
+}
+ 
+class Option extends Component {
+    render() { 
+        return ( 
+            <div>
+                {/* //<p>Option</p> */}
+                {this.props.optionText}
+            </div>
+         );
+    }
+}
+ 
+class AddOptions extends Component {
+    
+    state = {
+        error: undefined
+    }
+  handleAddOption = (e) => {
+     e.preventDefault();
+     const option = e.target.elements.option.value.trim();
+      
+     let error = this.props.handleAddOptions(option)
+     this.setState({
+         error: error
+     })
+     
+  }
+
+    render() { 
+        return (  
+            <div>
+                <h3>Add Options</h3>
+                <h3>{this.state.error}</h3>
+                <form onSubmit = {this.handleAddOption}>
+                    <input type="text" name="option" />
+                    <button>Add Option</button>
+                </form>
+            </div>
+        );
+    }
+}
+ 
+
+ 
+export default IndecisionAp;
+
+
+
+```
