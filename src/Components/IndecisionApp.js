@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css'
 
 //Components
 import Header from './Header';
@@ -47,8 +48,8 @@ class IndecisionAp extends Component {
     render() { 
         
         return ( 
-            <div>
-                <Header 
+            <div className ="container text-center">
+                <Header
                 title ="Indecision App"
                 subTitle = 'Put your life in computer'
                  />
